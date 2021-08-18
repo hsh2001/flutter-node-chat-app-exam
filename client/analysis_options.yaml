@@ -1,0 +1,67 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    prefer_const_declarations: true
+    prefer_const_constructors: true
+    file_names: true
+
+analyzer:
+  errors:
+    prefer_const_declarations: error
+    prefer_const_constructors: error
+    unused_import: error
+    file_names: error
+
+    always_declare_return_types: error
+    always_require_non_null_named_parameters: error
+    annotate_overrides: error
+    avoid_init_to_null: error
+    avoid_null_checks_in_equality_operators: error
+    avoid_relative_lib_imports: error
+    avoid_return_types_on_setters: error
+    avoid_shadowing_type_parameters: error
+    avoid_single_cascade_in_expression_statements: error
+    avoid_types_as_parameter_names: error
+    await_only_futures: error
+    camel_case_extensions: error
+    curly_braces_in_flow_control_structures: error
+    empty_catches: error
+    empty_constructor_bodies: error
+    library_names: error
+    library_prefixes: error
+    no_duplicate_case_values: error
+    null_closures: error
+    omit_local_variable_types: error
+    prefer_adjacent_string_concatenation: error
+    prefer_collection_literals: error
+    prefer_conditional_assignment: error
+    prefer_contains: error
+    prefer_equal_for_default_values: error
+    prefer_final_fields: error
+    prefer_for_elements_to_map_fromIterable: error
+    prefer_generic_function_type_aliases: error
+    prefer_if_null_operators: error
+    prefer_inlined_adds: error
+    prefer_is_empty: error
+    prefer_is_not_empty: error
+    prefer_iterable_whereType: error
+    prefer_single_quotes: error
+    prefer_spread_collections: error
+    recursive_getters: error
+    slash_for_doc_comments: error
+    sort_child_properties_last: error
+    type_init_formals: error
+    unawaited_futures: error
+    unnecessary_brace_in_string_interps: error
+    unnecessary_const: error
+    unnecessary_getters_setters: error
+    unnecessary_new: error
+    unnecessary_null_in_if_null_operators: error
+    unnecessary_this: error
+    unrelated_type_equality_checks: error
+    unsafe_html: error
+    use_full_hex_values_for_flutter_colors: error
+    use_function_type_syntax_for_parameters: error
+    use_rethrow_when_possible: error
+    valid_regexps: error
