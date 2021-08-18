@@ -13,9 +13,12 @@ jobs:
         with:
           node-version: 12.x
       - run: cd server
+        working-directory: ${{env.working-directory}}
       - name: npm install
         run: npm i --force
+        working-directory: ${{env.working-directory}}
       - name: Build product
         run: npm run build
+        working-directory: ${{env.working-directory}}
         env:
           CI: true

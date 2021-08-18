@@ -12,10 +12,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 12.x
-      - run: cd server
       - name: npm install
         run: npm i --force
+        working-directory: ${{env.working-directory}}
       - name: Check ESLint
         run: npm run fix:lint
+        working-directory: ${{env.working-directory}}
         env:
           CI: true

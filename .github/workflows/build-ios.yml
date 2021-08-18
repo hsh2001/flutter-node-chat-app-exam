@@ -15,4 +15,6 @@ jobs:
         with:
           channel: "dev"
       - run: flutter clean
+        working-directory: ${{env.working-directory}}
       - run: flutter build ios --release --no-codesign
+        working-directory: ${{env.working-directory}}
