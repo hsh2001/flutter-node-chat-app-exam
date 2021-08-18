@@ -12,8 +12,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 12.x
-      - run: cd server
-        working-directory: ${{env.working-directory}}
       - name: npm install
         run: npm i --force
         working-directory: ${{env.working-directory}}
