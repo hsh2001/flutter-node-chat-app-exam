@@ -4,7 +4,8 @@ on: [push]
 jobs:
   one:
     runs-on: ubuntu-latest
-
+      env:
+        working-directory: server
     steps:
       - uses: actions/checkout@v2
       - name: Init node env
