@@ -1,4 +1,4 @@
-name: Dart
+name: (CLIENT) Dart lint
 
 on: [push]
 jobs:
@@ -11,8 +11,8 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - uses: subosito/flutter-action@v1.5.3
         with:
-          channel: 'stable'
-
+          channel: "stable"
+      - run: cd client
       - name: Install dependencies
         run: flutter pub get
 
