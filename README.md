@@ -1,4 +1,4 @@
-# flutter-node-chat-app-exam
+# WIP | flutter-node-chat-app-exam
 [플러터 ⭐️ NodeJS] 채팅앱 예제
 
 ## 폴더 구조
