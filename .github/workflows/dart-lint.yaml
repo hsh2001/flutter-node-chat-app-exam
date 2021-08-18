@@ -5,8 +5,7 @@ jobs:
   build:
     name: Check flutter lint
     runs-on: ubuntu-latest
-      env:
-        working-directory: client
+
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1
