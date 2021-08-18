@@ -17,7 +17,7 @@
     "watch:build": "tsc -p tsconfig.json -w"
   },
   "devDependencies": {
-    "@types/node": "14.14.44",
+    "@types/node": "14.17.9",
     "@typescript-eslint/eslint-plugin": "4.23.0",
     "@typescript-eslint/parser": "4.23.0",
     "eslint": "7.32.0",
