@@ -1,10 +1,11 @@
-name: Unit test
+name: (SERVER) Unit test
 
 on: [push]
 jobs:
   one:
     runs-on: ubuntu-latest
-
+    env:
+      working-directory: server
     steps:
       - uses: actions/checkout@v2
       - name: Init node env
@@ -13,7 +14,9 @@ jobs:
           node-version: 12.x
       # - name: npm install
       #   run: npm i --force
+      #   working-directory: ${{env.working-directory}}
       # - name: Unit test
       #   run: npm run test
+      #   working-directory: ${{env.working-directory}}
       #   env:
       #     CI: true
