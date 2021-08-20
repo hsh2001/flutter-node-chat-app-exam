@@ -30,19 +30,35 @@ class ChatItem extends StatelessWidget {
   }
 }
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
+
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print(_textEditingController.text);
+          _textEditingController.text = '';
+        },
+        child: const Icon(Icons.send),
+      ),
       appBar: AppBar(
         title: const Text('채팅방?!'),
       ),
       bottomSheet: Container(
         color: Colors.blue,
         child: Container(
-          child: const TextField(),
+          child: TextField(
+            controller: _textEditingController,
+          ),
           padding: EdgeInsets.only(
             bottom: Get.mediaQuery.padding.bottom,
           ),
