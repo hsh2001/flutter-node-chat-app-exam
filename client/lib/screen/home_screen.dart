@@ -1,50 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screen/chat_screen.dart';
+import 'package:flutter_application_1/screen/create_room_screen.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/count_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final countProvider = Provider.of<CountProvider>(context);
-
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: countProvider.up,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Image.asset(
-                'images/moa.jpg',
-                width: 100,
-                height: 100,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Center(
-              child: Text(
-                'Hello Flutter!\nYou clicked moa\n${countProvider.count} times',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+      appBar: AppBar(
+        title: const Text('채팅앱?!'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.to(() => const CreateRoomScreen()),
+        child: const Icon(Icons.add),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.only(top: 12),
+          child: Column(
+            children: [
+              ...List.generate(
+                30,
+                (index) => InkWell(
+                  onTap: () => Get.to(() => const ChatScreen()),
+                  child: Container(
+                    width: Get.width - 24,
+                    margin: const EdgeInsets.only(left: 12, bottom: 6),
+                    padding: const EdgeInsets.all(24),
+                    decoration: const BoxDecoration(
+                      color: Color(0xffeeeeee),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8),
+                      ),
+                    ),
+                    child: const Text("1"),
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(height: 60),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () => Get.toNamed('/test'),
-            child: const Text('Go to test page to click this button'),
-          ),
-        ],
+        ),
       ),
     );
   }

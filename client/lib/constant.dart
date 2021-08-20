@@ -3,3 +3,5 @@
 import 'package:flutter/material.dart';
 
 const primaryColor = Colors.red;
+
+const apiServerURL = 'localhost:3000';
