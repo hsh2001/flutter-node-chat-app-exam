@@ -8,7 +8,7 @@ export default class Chat {
   id!: number;
 
   @Column()
-  nickname!: number;
+  nickname!: string;
 
   @ManyToOne(() => Room)
   room!: Room;
