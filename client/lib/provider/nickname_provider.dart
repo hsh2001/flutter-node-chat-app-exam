@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 final _nicknamePrefix = <String>[
@@ -42,7 +44,9 @@ class NicknameProvider extends ChangeNotifier {
       _isInit = true;
       _nicknamePrefix.shuffle();
       _nicknameSuffix.shuffle();
-      _nickname = '${_nicknamePrefix.first} ${_nicknameSuffix.first}';
+      final randId = Random().nextInt(9999);
+      _nickname = '${_nicknamePrefix.first}_${_nicknameSuffix.first}_$randId';
+      notifyListeners();
     }
   }
 }
