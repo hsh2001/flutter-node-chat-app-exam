@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 class ChatItem extends StatelessWidget {
   final MainAxisAlignment position;
   final String message;
+  final String nickname;
 
   const ChatItem({
     Key? key,
     required this.position,
     required this.message,
+    this.nickname = '',
   }) : super(key: key);
 
   @override
@@ -16,15 +18,20 @@ class ChatItem extends StatelessWidget {
     return Row(
       mainAxisAlignment: position,
       children: [
-        Container(
-          child: Text(message),
-          padding: const EdgeInsets.all(16),
-          margin: const EdgeInsets.all(8),
-          decoration: const BoxDecoration(
-            color: Color(0xffdddddd),
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-          ),
-        )
+        Column(
+          children: [
+            Text(nickname),
+            Container(
+              child: Text(message),
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Color(0xffdddddd),
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -50,7 +57,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print(_textEditingController.text);
+          // final message = _textEditingController.text;
           _textEditingController.text = '';
         },
         child: const Icon(Icons.send),
@@ -75,18 +82,22 @@ class _ChatScreenState extends State<ChatScreen> {
             ChatItem(
               position: MainAxisAlignment.end,
               message: '안녕하세요',
+              nickname: '나',
             ),
             ChatItem(
               position: MainAxisAlignment.start,
               message: '네 안녕합니다',
+              nickname: '상대',
             ),
             ChatItem(
               position: MainAxisAlignment.end,
               message: '반갑습니다.',
+              nickname: '나',
             ),
             ChatItem(
               position: MainAxisAlignment.end,
               message: '이름이 뭔가요?',
+              nickname: '나',
             ),
             ChatItem(
               position: MainAxisAlignment.center,
