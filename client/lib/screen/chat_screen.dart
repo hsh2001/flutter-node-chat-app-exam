@@ -31,7 +31,12 @@ class ChatItem extends StatelessWidget {
 }
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+  final int id;
+
+  const ChatScreen({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constant.dart';
+import 'package:flutter_application_1/provider/chat_room_list_provider.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class CreateRoomScreen extends StatefulWidget {
   const CreateRoomScreen({Key? key}) : super(key: key);
@@ -25,7 +29,14 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               controller: _textEditingController,
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
+                final title = _textEditingController.text;
+                _textEditingController.text = '';
+                await http.get(Uri.http(apiServerURL, '/room/create/$title'));
+                await Provider.of<ChatRoomListProvider>(
+                  Get.context!,
+                  listen: false,
+                ).reload();
                 Get.back();
               },
               child: const Text('생성?!'),
