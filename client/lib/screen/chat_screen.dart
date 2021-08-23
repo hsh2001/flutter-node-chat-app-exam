@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/function/chat.dart';
+import 'package:flutter_application_1/provider/nickname_provider.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class ChatItem extends StatelessWidget {
   final MainAxisAlignment position;
@@ -50,15 +55,44 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  List<Chat> _chatList = [];
   final _textEditingController = TextEditingController();
+
+  Future _reloadChat() {
+    return Chat.load(widget.id).then(
+      (value) => setState(() {
+        _chatList = value;
+      }),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _reloadChat();
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      _reloadChat();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // final message = _textEditingController.text;
+          final message = _textEditingController.text;
           _textEditingController.text = '';
+
+          Chat.send(
+            roomId: widget.id,
+            chat: Chat(
+              content: message,
+              nickname: Provider.of<NicknameProvider>(
+                context,
+                listen: false,
+              ).nickname,
+            ),
+          ).then((_) => _reloadChat());
         },
         child: const Icon(Icons.send),
       ),
@@ -78,31 +112,16 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: const [
-            ChatItem(
-              position: MainAxisAlignment.end,
-              message: '안녕하세요',
-              nickname: '나',
+          children: [
+            ...List.generate(
+              _chatList.length,
+              (index) => ChatItem(
+                position: MainAxisAlignment.end,
+                message: _chatList[index].content,
+                nickname: _chatList[index].nickname,
+              ),
             ),
-            ChatItem(
-              position: MainAxisAlignment.start,
-              message: '네 안녕합니다',
-              nickname: '상대',
-            ),
-            ChatItem(
-              position: MainAxisAlignment.end,
-              message: '반갑습니다.',
-              nickname: '나',
-            ),
-            ChatItem(
-              position: MainAxisAlignment.end,
-              message: '이름이 뭔가요?',
-              nickname: '나',
-            ),
-            ChatItem(
-              position: MainAxisAlignment.center,
-              message: '상대방이 채팅방을 떠났습니다.',
-            ),
+            if (_chatList.isEmpty) const Text('아직 대화가 없어요.'),
           ],
         ),
       ),
