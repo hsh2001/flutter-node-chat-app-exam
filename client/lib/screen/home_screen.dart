@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/provider/chat_room_list_provider.dart';
+import 'package:flutter_application_1/provider/nickname_provider.dart';
 import 'package:flutter_application_1/screen/chat_screen.dart';
 import 'package:flutter_application_1/screen/create_room_screen.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ class _RoomListLoaderState extends State<RoomListLoader> {
     super.initState();
     _chatRoomProvider = Provider.of<ChatRoomListProvider>(Get.context!);
     _chatRoomProvider.reload();
+    Provider.of<NicknameProvider>(Get.context!).init();
   }
 
   @override
@@ -59,6 +61,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nickname = Provider.of<NicknameProvider>(context).nickname;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('채팅앱?!'),
@@ -70,7 +74,12 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(top: 12),
-          child: const RoomListLoader(),
+          child: Column(
+            children: [
+              Text('Hi $nickname\n'),
+              const RoomListLoader(),
+            ],
+          ),
         ),
       ),
     );

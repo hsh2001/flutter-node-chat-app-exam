@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/provider/chat_room_list_provider.dart';
+import 'package:flutter_application_1/provider/nickname_provider.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<ChatRoomListProvider>(
             create: (_) => ChatRoomListProvider()),
+        ChangeNotifierProvider<NicknameProvider>(
+            create: (_) => NicknameProvider()),
       ],
       child: GetMaterialApp(
         title: 'Hello flutter',
