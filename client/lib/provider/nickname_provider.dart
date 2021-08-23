@@ -28,25 +28,20 @@ final _nicknameSuffix = <String>[
   '기린',
 ];
 
+String getRandomNickname() {
+  _nicknamePrefix.shuffle();
+  _nicknameSuffix.shuffle();
+  final randId = Random().nextInt(9999);
+  return '${_nicknamePrefix.first}_${_nicknameSuffix.first}_$randId';
+}
+
 class NicknameProvider extends ChangeNotifier {
-  String _nickname = '';
-  bool _isInit = false;
+  String _nickname = getRandomNickname();
 
   get nickname => _nickname;
 
   void setNickname(String newNickname) {
     _nickname = newNickname;
     notifyListeners();
-  }
-
-  void init() {
-    if (!_isInit) {
-      _isInit = true;
-      _nicknamePrefix.shuffle();
-      _nicknameSuffix.shuffle();
-      final randId = Random().nextInt(9999);
-      _nickname = '${_nicknamePrefix.first}_${_nicknameSuffix.first}_$randId';
-      notifyListeners();
-    }
   }
 }

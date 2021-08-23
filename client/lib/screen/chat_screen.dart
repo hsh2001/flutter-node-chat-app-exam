@@ -66,13 +66,21 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  late Timer _timer;
+
   @override
   void initState() {
     super.initState();
     _reloadChat();
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _reloadChat();
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
   }
 
   @override
@@ -116,7 +124,9 @@ class _ChatScreenState extends State<ChatScreen> {
             ...List.generate(
               _chatList.length,
               (index) => ChatItem(
-                position: MainAxisAlignment.end,
+                position: _chatList[index].isMine()
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
                 message: _chatList[index].content,
                 nickname: _chatList[index].nickname,
               ),

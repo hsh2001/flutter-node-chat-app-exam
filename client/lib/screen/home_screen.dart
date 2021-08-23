@@ -21,7 +21,6 @@ class _RoomListLoaderState extends State<RoomListLoader> {
     super.initState();
     _chatRoomProvider = Provider.of<ChatRoomListProvider>(Get.context!);
     _chatRoomProvider.reload();
-    Provider.of<NicknameProvider>(Get.context!).init();
   }
 
   @override
