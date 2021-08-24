@@ -76,7 +76,7 @@ export default async function startWebSocketServer({
       webSocket.data.lastChatId = chatLogs[0].id;
 
       webSocket.send(responseData);
-    }, 1000);
+    }, 333);
 
     webSocket.on('message', async (message) => {
       const { roomId, lastChatId } = JSON.parse(String(message));
