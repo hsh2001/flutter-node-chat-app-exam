@@ -1,10 +1,12 @@
+import type { Server } from 'http';
+
 import express from 'express';
 import { Connection } from 'typeorm';
 
 import Chat from './db/entity/Chat';
 import Room from './db/entity/Room';
 
-export default function startExpressServer(db: Connection): Promise<void> {
+export default function startExpressServer(db: Connection): Promise<Server> {
   const app = express();
 
   const roomRepository = db.getRepository(Room);
@@ -64,6 +66,6 @@ export default function startExpressServer(db: Connection): Promise<void> {
   });
 
   return new Promise((resolve) => {
-    app.listen(3000, () => resolve());
+    const server = app.listen(3000, () => resolve(server));
   });
 }

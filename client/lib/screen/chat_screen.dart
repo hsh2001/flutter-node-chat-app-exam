@@ -1,10 +1,13 @@
-import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/function/chat.dart';
 import 'package:flutter_application_1/provider/nickname_provider.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:web_socket_channel/io.dart';
+
+import '../constant.dart';
 
 class ChatItem extends StatelessWidget {
   final MainAxisAlignment position;
@@ -57,30 +60,79 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   List<Chat> _chatList = [];
   final _textEditingController = TextEditingController();
+  final _channel = IOWebSocketChannel.connect(Uri.parse('ws://$apiServerURL'));
+  int _lastChatId = 0;
 
-  Future _reloadChat() {
-    return Chat.load(widget.id).then(
-      (value) => setState(() {
-        _chatList = value;
+  void _concatChatList(List<Chat> _newChatList) {
+    _chatList.addAll(_newChatList);
+    final ids = _chatList.map((e) => e.id).toSet();
+    _chatList.retainWhere((x) => ids.remove(x.id));
+    _chatList = _chatList.where((chat) => chat.id > 0).toList();
+  }
+
+  void _sendToWebSocket(int roomId) {
+    _channel.sink.add(
+      jsonEncode({
+        'lastChatId': _lastChatId,
+        'roomId': roomId,
       }),
     );
   }
 
-  late Timer _timer;
+  void _sendMessage(String message) {
+    final roomId = widget.id;
+    _sendToWebSocket(roomId);
+
+    final chat = Chat(
+      content: message,
+      nickname: Provider.of<NicknameProvider>(
+        context,
+        listen: false,
+      ).nickname,
+    );
+
+    setState(() {
+      _chatList.add(chat);
+    });
+
+    Chat.send(
+      roomId: roomId,
+      chat: chat,
+    );
+  }
 
   @override
   void initState() {
     super.initState();
-    _reloadChat();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      _reloadChat();
+
+    final roomId = widget.id;
+    Chat.load(roomId).then(
+      (value) => setState(() {
+        _chatList = value;
+      }),
+    );
+
+    _channel.stream.listen((rawData) {
+      final Map<String, dynamic> responseData = jsonDecode(rawData);
+      final List<dynamic> chatLogs = responseData['chatLogs'];
+
+      print(chatLogs);
+
+      if (chatLogs.isEmpty) return;
+
+      setState(() {
+        _lastChatId = chatLogs.first['id'];
+        _concatChatList(Chat.fromMapList(chatLogs));
+      });
     });
+
+    _sendToWebSocket(roomId);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _channel.sink.close();
   }
 
   @override
@@ -88,19 +140,8 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final message = _textEditingController.text;
+          _sendMessage(_textEditingController.text);
           _textEditingController.text = '';
-
-          Chat.send(
-            roomId: widget.id,
-            chat: Chat(
-              content: message,
-              nickname: Provider.of<NicknameProvider>(
-                context,
-                listen: false,
-              ).nickname,
-            ),
-          ).then((_) => _reloadChat());
         },
         child: const Icon(Icons.send),
       ),

@@ -47,6 +47,21 @@ class Chat {
         ).nickname;
   }
 
+  static Chat fromMap(Map<String, dynamic> map) {
+    return Chat(
+      id: map['id'],
+      content: map['content'],
+      nickname: map['nickname'],
+    );
+  }
+
+  static List<Chat> fromMapList(List mapList) {
+    return List.generate(
+      mapList.length,
+      (index) => Chat.fromMap(mapList[index]),
+    );
+  }
+
   static Future<List<Chat>> load(int roomId, {int index = 0}) async {
     final response = await http.get(
       Uri.http(

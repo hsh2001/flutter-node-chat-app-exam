@@ -1,19 +1,19 @@
 import createConnection from './db/createConnection';
 import startExpressServer from './express';
+import startWebSocketServer from './ws';
 
-function onReadyServerHasError(error: Error) {
-  console.log('-----------------');
-  console.error(error);
-  process.exit();
-}
-
-createConnection().then((db) => {
+createConnection().then(async (db) => {
   console.clear();
   console.log('db connect success!');
 
-  startExpressServer(db)
-    .then(() => {
-      console.log('express server start!');
-    })
-    .catch(onReadyServerHasError);
+  try {
+    const server = await startExpressServer(db);
+    console.log('express server start!');
+    await startWebSocketServer({ db, server });
+    console.log('ws server start!');
+  } catch (error) {
+    console.log('-----------------');
+    console.error(error);
+    process.exit();
+  }
 });
