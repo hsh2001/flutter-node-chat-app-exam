@@ -36,11 +36,11 @@
   },
   "dependencies": {
     "@types/express": "4.17.13",
-    "@types/ws": "7.4.7",
+    "@types/ws": "8.5.2",
     "dotenv": "10.0.0",
     "express": "4.17.1",
     "mysql": "2.18.1",
     "typeorm": "0.2.37",
-    "ws": "8.2.0"
+    "ws": "8.5.0"
   }
 }
